@@ -5,7 +5,7 @@ const gravatar = require('gravatar')                            // gravatar
 const bcrypt = require('bcryptjs');                             // encrypt password
 const jwt = require('jsonwebtoken');                            // json web token
 const config = require('config');                               // for getting jwtSecret
-const { check, validationResult } = require('express-validator/check')
+const { check, validationResult } = require('express-validator/check')      // express validator
 
 // This is just for Test:
 // @route               GET api/users
