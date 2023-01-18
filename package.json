@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server",
-    "server": "nodemon server" 
+    "server": "nodemon server"
   },
   "author": "CJ_Liu",
   "license": "MIT",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "concurrently": "^7.6.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "prettier": "2.8.3"
   }
 }
