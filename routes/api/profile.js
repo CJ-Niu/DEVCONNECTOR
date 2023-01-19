@@ -124,7 +124,7 @@ router.post(
     }
 );
 
-// Route to get all profiles
+// Route to get all profiless
 // @route               GET api/profile
 // @description         Get all profiles
 // @access              Public
