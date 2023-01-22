@@ -214,6 +214,30 @@ router.put(
             current,
             description
         } = req.body;
+
+        const newExp = {                // this will create an object with the date user submit
+            title,
+            company,
+            location,
+            from,
+            to,
+            current,
+            description
+        }
+
+        // deal with mongoDB
+        try {
+            const profile = await Profile.findOne({ user: req.user.id });
+
+            profile.experience.unshift(newExp);
+
+            await profile.save();
+
+            res.json(profile);
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send('Server Error!')
+        }
     });
 
 
