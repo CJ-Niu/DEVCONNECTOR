@@ -179,5 +179,13 @@ router.delete('/', auth, async (req, res) => {
     }
 });
 
+// Route to add Experience
+// @route               PUT api/profile/experience
+// @description         Add profile experience
+// @access              Private
+router.put('/experience', auth, async (req, res) => {
+    
+});
+
 
 module.exports = router;                                        // export the route
