@@ -271,7 +271,7 @@ router.put(
     [
         auth,
         [
-            check('shcool', 'School is required!')
+            check('school', 'School is required!')
                 .not()
                 .isEmpty(),
             check('degree', 'Degree is required!')
@@ -294,7 +294,7 @@ router.put(
         const {
             school,
             degree,
-            filedofstudy,
+            fieldofstudy,
             from,
             to,
             current,
@@ -304,7 +304,7 @@ router.put(
         const newEdu = {                // this will create an object with the date user submit
             school,
             degree,
-            filedofstudy,
+            fieldofstudy,
             from,
             to,
             current,
