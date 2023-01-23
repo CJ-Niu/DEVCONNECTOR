@@ -262,5 +262,91 @@ router.put(
         }
     });
 
+// Route to add Education
+// @route               PUT api/profile/education
+// @description         Add profile education
+// @access              Private
+router.put(
+    '/education',
+    [
+        auth,
+        [
+            check('shcool', 'School is required!')
+                .not()
+                .isEmpty(),
+            check('degree', 'Degree is required!')
+                .not()
+                .isEmpty(),
+            check('fieldofstudy', 'Filed of study is required!')
+                .not()
+                .isEmpty(),
+            check('from', 'From date is required!')
+                .not()
+                .isEmpty()
+        ]
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        // if errors exist
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        }
+        // get body data
+        const {
+            school,
+            degree,
+            filedofstudy,
+            from,
+            to,
+            current,
+            description
+        } = req.body;
+
+        const newEdu = {                // this will create an object with the date user submit
+            school,
+            degree,
+            filedofstudy,
+            from,
+            to,
+            current,
+            description
+        }
+
+        // deal with mongoDB
+        try {
+            const profile = await Profile.findOne({ user: req.user.id });
+
+            profile.education.unshift(newEdu);
+
+            await profile.save();
+
+            res.json(profile);
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send('Server Error!')
+        }
+    });
+
+    // Route to delete Education
+    // @route               DELETE api/profile/education/:edu_id
+    // @description         Delete education from profile
+    // @access              Private
+    router.delete('/education/:edu_id', auth, async (req, res) => {
+        try {
+            // get profile by user id
+            const profile = await Profile.findOne({ user: req.user.id });
+            // get remove index -- get correct education
+            const removeIndex = profile.education.map(item => item.id).indexOf(req.params.edu_id);
+            // remove
+            profile.education.splice(removeIndex, 1);
+            // re-save profile
+            await profile.save();
+            // sending back response
+            res.json(profile);
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send('Server Error!')
+        }
+    });
+
 
 module.exports = router;                                        // export the route
