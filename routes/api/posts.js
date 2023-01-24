@@ -23,7 +23,7 @@ router.post(
         [
             check('text', 'Text is required!')
                 .not()
-                .isEmpty
+                .isEmpty()
         ]
     ],
     async (req, res) => {
@@ -32,8 +32,24 @@ router.post(
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() })
         }
-        
-        const user = await User
+
+        try {
+            const user = await User.findById(req.user.id).select('-password');
+
+            const newPost = new Post ({
+                text: req.body.text,            // text comes from body
+                name: user.name,                // name comes from user
+                avatar: user.avatar,            // avatar comes from user
+                user: req.user.id               // user comes from req.user.id
+            });
+
+            const post = await newPost.save();
+
+            res.json(post);
+        } catch (err) {
+            console.log(err.message);
+            res.status(500).send('Server Error!');
+        }
     }
 );
 
