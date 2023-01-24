@@ -373,7 +373,7 @@ router.put(
                 }
                 // test status
                 if (response.statusCode !== 200) {
-                    res.status(404).json({ msg: 'No Github profile found!' })
+                    return res.status(404).json({ msg: 'No Github profile found!' })
                 }
                 // if found
                 res.json(JSON.parse(body));
