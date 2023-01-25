@@ -53,8 +53,19 @@ router.post(
     }
 );
 
-
-
+// Route to get all posts
+// @route               GET api/posts
+// @description         Get all posts
+// @access              Private (user have to login to see posts)
+router.get('/', auth, async (req, res) => {
+    try {
+        const posts = await Post.find().sort({ date: -1 });     // sort post by the most recent one come first
+        res.json(posts);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error!');
+    }
+});
 
 
 
