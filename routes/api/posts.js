@@ -123,8 +123,29 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 
-
-
+// Route to like a post
+// @route               PUT api/posts/like/:id
+// @description         Like a post
+// @access              Private
+router.put('/like/:id', auth, async (req, res) => {
+    try {
+        // get post
+        const post = await Post.findById(req.params.id);
+        // check if post has already been liked by this user
+        if (post.likes.filter(like => like.user.toString() == req.user.id).length > 0) {        // length > 0, means its already been liked
+            return res.json(400).json({ msg: 'Post already liked!' });
+        }
+        // user hasn't liked it yet
+        post.likes.unshift({ user: req.user.id });
+        // save
+        await post.save();
+        // return
+        res.json(post.likes);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error!');
+    }
+});
 
 
 
