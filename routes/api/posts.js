@@ -91,8 +91,36 @@ router.get('/:id', auth, async (req, res) => {
     }
 });
 
+// Route to delete a single post
+// @route               DELETE api/posts/:id
+// @description         Delete a post
+// @access              Private
+router.delete('/:id', auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
 
+        // check if post exist
+        if (!post) {
+            return res.status(404).json({ msg: 'Post not found!' });
+        }
 
+        // check make sure user OWN this post, before deleting it
+        if (post.user.toString() != req.user.id) {
+            return res.status(401).json({ msg: 'User not authorized!' });
+        }
+
+        // nothing wrong, remove post
+        await post.remove();
+        res.json({ msg: 'Post removed!' });
+    } catch (err) {
+        console.log(err.message);
+        // privacy issue, if the pass in value is not an formatted object ID
+        if (err.kind == 'ObjectId') {
+            return res.status(404).json({ msg: 'Post not found!' });
+        }
+        res.status(500).send('Server Error!');
+    }
+});
 
 
 
