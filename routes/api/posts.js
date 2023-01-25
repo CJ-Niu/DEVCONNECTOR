@@ -67,7 +67,29 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
+// Route to get one single post
+// @route               GET api/posts/:id
+// @description         Get post by ID
+// @access              Private (user have to login to see posts)
+router.get('/:id', auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        
+        // check if post exist
+        if (!post) {
+            return res.status(404).json({ msg: 'Post not found!' });
+        }
 
+        res.json(post);
+    } catch (err) {
+        console.log(err.message);
+        // privacy issue, if the pass in value is not an formatted object ID
+        if (err.kind == 'ObjectId') {
+            return res.status(404).json({ msg: 'Post not found!' });
+        }
+        res.status(500).send('Server Error!');
+    }
+});
 
 
 
