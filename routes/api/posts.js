@@ -151,16 +151,16 @@ router.put('/like/:id', auth, async (req, res) => {
 // @route               PUT api/posts/unlike/:id
 // @description         Like a post
 // @access              Private
-router.put('unlike/:id', auth, async (req, res) => {
+router.put('/unlike/:id', auth, async (req, res) => {
     try {
         // get post
         const post = await Post.findById(req.params.id);
-        // check if post has already been liked
+        // check if post already been liked
         if (post.likes.filter(like => like.user.toString() == req.user.id).length == 0) {        // length == 0, means post haven't been liked yet
             return res.status(400).json({ msg: 'Poast has not yet been liked!' });
         }
         // get correct like's index to remove
-        const removeIndex = post.likes.map(like => like.user.toString()).indexOf(res.user.id);
+        const removeIndex = post.likes.map(like => like.user.toString()).indexOf(req.user.id);
         // splice out the like
         post.likes.splice(removeIndex, 1);
         // save
@@ -172,6 +172,52 @@ router.put('unlike/:id', auth, async (req, res) => {
         res.status(500).send('Server Error!');
     }
 });
+
+
+// Route to create a comment for a post
+// @route               POST api/posts/comment/:id
+// @description         Comment on a post
+// @access              Private (user have to login to comment a post)
+router.post(
+    '/comment/:id',
+    [
+        auth,
+        [
+            check('text', 'Text is required!')  // comment can't be empty
+                .not()
+                .isEmpty()
+        ]
+    ],
+    async (req, res) => {
+        
+        const errors = validationResult(req);   // check for errors
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        }
+
+        try {
+            const user = await User.findById(req.user.id).select('-password');
+            const post = await Post.findById(req.params.id);
+
+            const newComment = {
+                text: req.body.text,            // text comes from body
+                name: user.name,                // name comes from user
+                avatar: user.avatar,            // avatar comes from user
+                user: req.user.id               // user comes from req.user.id
+            };
+
+            // add comment to post
+            post.comments.unshift(newComment);  // unshift --> add comment to most recent beginning
+            
+            await post.save();                  // save
+            
+            res.json(post.comments);            // response: send back all comments
+        } catch (err) {
+            console.log(err.message);
+            res.status(500).send('Server Error!');
+        }
+    }
+);
 
 
 module.exports = router;                                    // export the route
