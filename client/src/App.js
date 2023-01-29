@@ -12,14 +12,16 @@ import store from './store';
 import './App.css';
 
 const App = () => (
-  <Router>
-    <Navbar />
-    <Routes>
-      <Route exact path='/' element={<Landing />} />
-      <Route exact path='/register' element={<Register />} />
-      <Route exact path='/login' element={<Login />} />
-    </Routes>
-  </Router>
+  <Provider store={store}>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route exact path='/' element={<Landing />} />
+        <Route exact path='/register' element={<Register />} />
+        <Route exact path='/login' element={<Login />} />
+      </Routes>
+    </Router>
+  </Provider>
 );
 
 export default App;
