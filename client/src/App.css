@@ -68,6 +68,7 @@ img {
 
 .text-primary {
   color: var(--primary-color);
+  margin-top: 4rem;
 }
 
 .text-dark {
