@@ -9,8 +9,8 @@ import Dashboard from './components/dashboard/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute';
 
 // Redux
-import { Provider } from 'react-redux';
 import store from './store';
+import { Provider } from 'react-redux';
 import { loadUser } from './actions/auth';
 import setAuthToken from './untils/setAuthToken';
 
