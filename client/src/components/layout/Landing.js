@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const Landing = ({ isAuthenticated }) => {
+  // if user already login, no need to visit landing page
   if (isAuthenticated) {
     return <Navigate to='/dashboard' />;
   }
