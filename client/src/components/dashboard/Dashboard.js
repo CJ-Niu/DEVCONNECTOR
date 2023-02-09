@@ -6,14 +6,28 @@ import { getCurrentProfile } from '../../actions/profile';
 
 const Dashboard = ({
   getCurrentProfile,
-  auth,
+  auth: { user },
   profile: { profile, loading },
 }) => {
   useEffect(() => {
     getCurrentProfile();
   }, []); // [] --> only run once
 
-  return loading && profile === null ? <Spinner /> : <Fragment>test</Fragment>; // if profile is null && still loading, show spinner
+  return loading && profile === null ? ( // if profile is null && still loading, show spinner
+    <Spinner />
+  ) : (
+    <Fragment>
+      <h1 className='large text-primary'>Dashboard</h1>
+      <p className='lead'>
+        <i className='fas fa-user'></i> Welcome {user && user.name}
+      </p>
+      {profile !== null ? (
+        <Fragment>has</Fragment>
+      ) : (
+        <Fragment>has not</Fragment>
+      )}
+    </Fragment>
+  );
 };
 
 Dashboard.propTypes = {
