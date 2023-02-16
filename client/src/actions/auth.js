@@ -32,7 +32,7 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
-// Register User.
+// Register User
 export const register =
   ({ name, email, password }) =>
   async (dispatch) => {
