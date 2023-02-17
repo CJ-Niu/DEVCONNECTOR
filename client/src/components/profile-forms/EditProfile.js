@@ -258,16 +258,16 @@ function withRouter(Component) {
   return ComponentWithRouterProp;
 }
 
-CreateProfile.propTypes = {
+EditProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state = {
+const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
 export default connect(mapStateToProps, { EditProfile, getCurrentProfile })(
-  withRouter(CreateProfile)
+  withRouter(EditProfile)
 );
