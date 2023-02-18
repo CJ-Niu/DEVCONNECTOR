@@ -221,7 +221,7 @@ const CreateProfile = ({ createProfile, history }) => {
   );
 };
 
-// react-router-dom v6 the withRouter HOC no longer exists!
+// react-router-dom v6 the withRouter HOC no longer exists
 function withRouter(Component) {
   function ComponentWithRouterProp(props) {
     let location = useLocation();
