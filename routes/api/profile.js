@@ -224,7 +224,7 @@ router.put(
       description,
     };
 
-    // deal with mongoDB
+    // Deal with mongoDB
     try {
       const profile = await Profile.findOne({ user: req.user.id });
 
