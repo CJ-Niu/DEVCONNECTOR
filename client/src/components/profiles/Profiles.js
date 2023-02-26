@@ -4,10 +4,21 @@ import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { getProfiles } from '../../actions/profile';
 
-const Profiles = (props) => {
-  return <div>Profiles</div>;
+const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
+  useEffect(() => {
+    getProfiles();
+  }, []);
+
+  return <div />;
 };
 
-Profiles.propTypes = {};
+Profiles.propTypes = {
+  getProfiles: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
+};
 
-export default Profiles;
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { getProfiles })(Profiles);
