@@ -8,6 +8,7 @@ import {
   GET_PROFILES,
   PROFILE_ERROR,
   UPDATE_PROFILE,
+  GET_REPOS,
 } from './types';
 
 // Get current user's profile
