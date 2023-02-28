@@ -1,8 +1,9 @@
 import React, { Fragment, useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { addEducation } from '../../actions/profile';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const AddEducation = ({ addEducation, history }) => {
   const [formData, setFormData] = useState({
@@ -121,8 +122,19 @@ const AddEducation = ({ addEducation, history }) => {
   );
 };
 
+function withRouter(Component) {
+  function ComponentWithRouterProp(props) {
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return <Component {...props} router={{ location, navigate, params }} />;
+  }
+
+  return ComponentWithRouterProp;
+}
+
 AddEducation.propTypes = {
   addEducation: PropTypes.func.isRequired,
 };
 
-export default connect(null, { addEducation })(AddEducation);
+export default connect(null, { addEducation })(withRouter(AddEducation));

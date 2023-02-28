@@ -1,8 +1,9 @@
 import React, { Fragment, useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addExperience } from '../../actions/profile';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const AddExperience = ({ addExperience, history }) => {
   const [formData, setFormData] = useState({
@@ -120,8 +121,20 @@ const AddExperience = ({ addExperience, history }) => {
   );
 };
 
+// react-router-dom v6 the withRouter HOC no longer exists
+function withRouter(Component) {
+  function ComponentWithRouterProp(props) {
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return <Component {...props} router={{ location, navigate, params }} />;
+  }
+
+  return ComponentWithRouterProp;
+}
+
 AddExperience.propTypes = {
   addExperience: PropTypes.func.isRequired,
 };
 
-export default connect(null, { addExperience })(AddExperience);
+export default connect(null, { addExperience })(withRouter(AddExperience));
