@@ -27,7 +27,7 @@ const ProfileGithub = ({ username, getGithubRepos, repos }) => {
                   {repo.name}
                 </a>
               </h4>
-              <p>{repo.description}</p>
+              <p>{repo.descriptions}</p>
             </div>
             <ul>
               <li className='badge badge-primary'>
